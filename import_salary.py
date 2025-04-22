@@ -15,8 +15,8 @@ def main():
     # Get MySQL connection info
     print("Connecting to MySQL...")
     host = "localhost"
-    user = "root"
-    password = "chosandarhtet"
+    user = "user"
+    password = "password"
     
     try:
         # Connect to MySQL
