@@ -57,13 +57,13 @@ employee-salary-analysis/
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/salary-analysis.git
-   cd salary-analysis
+   git clone https://github.com/jamesleocodes/spark_projects.git
+   cd spark_projects
    ```
 
-2. Install required Python packages:
+2. Install required Python packages using the requirements.txt file:
    ```
-   pip install mysql-connector-python pyspark pandas
+   pip install -r requirements.txt
    ```
 
 3. Set up the MySQL database:
