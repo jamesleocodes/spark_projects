@@ -1,6 +1,6 @@
 # Employee Salary Data Analysis
 
-A data pipeline that loads employee salary data from a CSV file into MySQL, then analyzes it using Apache Spark.
+A data pipeline that loads employee salary data from a CSV file into MySQL, then analyzes it using Apache Spark. For those new to ETL, a foundational article on the topic can be found [here](https://medium.com/@mr.zawmyowin.physics/data-engineering-simplified-techniques-tools-and-insights-for-aspiring-professionals-a8a4f29f78bb). The instructions for setting up MySQL are detailed in the [provided guide](https://github.com/jamesleocodes/ETL_projects/blob/main/setupSQL.md).
 
 ## Project Overview
 
