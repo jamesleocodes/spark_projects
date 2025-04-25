@@ -1,10 +1,10 @@
-# Requirements for Employee Salary Data Analysis Project
+# Requirements for Spark Projects
 # Python 3.7+ recommended
 
-# Database Connector
+# Database Connector (for Salary Analysis)
 mysql-connector-python>=8.0.28
 
-# Data Processing
+# Data Processing & Analysis
 pandas>=1.3.5
 numpy>=1.21.0
 
@@ -12,6 +12,13 @@ numpy>=1.21.0
 pyspark>=3.2.0
 py4j>=0.10.9
 
+# Visualization (for Churn Prediction)
+matplotlib>=3.5.0
+seaborn>=0.11.2
+
 # Optional: Jupyter for interactive analysis
 jupyter>=1.0.0
 notebook>=6.4.0
+
+# Utilities
+scikit-learn>=1.0.0  # Optional: for additional ML algorithms
