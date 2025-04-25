@@ -13,6 +13,8 @@ For those new to ETL, a foundational article on the topic can be found [here](ht
 Spark/
 ├── README.md                         # Project documentation
 ├── LICENSE                           # MIT License
+├── setup.py                          # Setup script for easy installation
+├── requirements.txt                  # Python dependencies
 ├── src/                              # Source code directory
 │   ├── import_salary.py              # Script to import CSV data into MySQL
 │   ├── spark_salary.py               # Script for Spark analysis of MySQL data
@@ -25,6 +27,27 @@ Spark/
 ├── salary_data.parquet/              # Parquet directory with employee data
 └── salary_analysis_results.parquet/  # Parquet directory with analysis results
 ```
+
+## Quick Start
+
+1. Clone this repository:
+   ```
+   git clone https://github.com/yourusername/Spark.git
+   cd Spark
+   ```
+
+2. Run the setup script to install dependencies and verify your environment:
+   ```
+   python setup.py
+   ```
+   
+   This will:
+   - Install all required Python packages
+   - Check if Apache Spark is correctly installed
+   - Verify data files are present
+   - Check MySQL connection (optional for salary analysis)
+
+3. Follow the specific instructions for each project below.
 
 # Project 1: Employee Salary Data Analysis
 
