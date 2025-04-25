@@ -1,6 +1,32 @@
-# Employee Salary Data Analysis
+# Data Analysis Projects with Apache Spark
 
-A data pipeline that loads employee salary data from a CSV file into MySQL, then analyzes it using Apache Spark. For those new to ETL, a foundational article on the topic can be found [here](https://medium.com/@mr.zawmyowin.physics/data-engineering-simplified-techniques-tools-and-insights-for-aspiring-professionals-a8a4f29f78bb). The instructions for setting up MySQL are detailed in the [provided guide](https://github.com/jamesleocodes/ETL_projects/blob/main/setupSQL.md).
+This repository contains multiple data analysis projects using Apache Spark:
+
+1. Employee Salary Data Analysis
+2. Telco Customer Churn Prediction
+
+For those new to ETL, a foundational article on the topic can be found [here](https://medium.com/@mr.zawmyowin.physics/data-engineering-simplified-techniques-tools-and-insights-for-aspiring-professionals-a8a4f29f78bb). The instructions for setting up MySQL are detailed in the [provided guide](https://github.com/jamesleocodes/ETL_projects/blob/main/setupSQL.md).
+
+## Repository Structure
+
+```
+Spark/
+├── README.md                         # Project documentation
+├── LICENSE                           # MIT License
+├── src/                              # Source code directory
+│   ├── import_salary.py              # Script to import CSV data into MySQL
+│   ├── spark_salary.py               # Script for Spark analysis of MySQL data
+│   ├── load_churn_data.py            # Script for data loading diagnostics
+│   ├── run_churn_model.py            # Script for the full ML workflow 
+│   └── run_analysis.py               # Helper script to run churn analysis
+├── data/                             # Data directory
+│   ├── salary.csv                    # Employee salary data
+│   └── WA_Fn-UseC_-Telco-Customer-Churn.csv  # Telco customer churn data
+├── salary_data.parquet/              # Parquet directory with employee data
+└── salary_analysis_results.parquet/  # Parquet directory with analysis results
+```
+
+# Project 1: Employee Salary Data Analysis
 
 ## Project Overview
 
@@ -38,8 +64,8 @@ employee-salary-analysis/
 ## Files
 
 - `data/salary.csv`: The source CSV data file (300 rows of employee salary records)
-- `import_salary.py`: Python script to load CSV data into MySQL
-- `spark_salary.py`: Main script that connects to MySQL and performs Spark analysis
+- `src/import_salary.py`: Python script to load CSV data into MySQL
+- `src/spark_salary.py`: Main script that connects to MySQL and performs Spark analysis
 
 ## Setup Instructions
 
@@ -74,7 +100,7 @@ employee-salary-analysis/
 
 1. To load the CSV data into MySQL:
    ```
-   python import_salary.py
+   python src/import_salary.py
    ```
    This script will:
    - Create the `employee_db` database if it doesn't exist
@@ -85,7 +111,7 @@ employee-salary-analysis/
 
 1. Run the Spark analysis script:
    ```
-   python spark_salary.py
+   python src/spark_salary.py
    ```
    This script will:
    - Connect to MySQL and extract the salary data
@@ -109,7 +135,7 @@ The analysis shows the maximum salary for each employee, grouped by ID, name, an
 
 ## Customization
 
-- To modify the MySQL connection parameters, edit the connection settings in `spark_salary.py`
+- To modify the MySQL connection parameters, edit the connection settings in `src/spark_salary.py`
 - To change the number of records displayed, adjust the `show(n=10)` parameter in the Spark SQL query
 
 ## Data Flow
@@ -196,6 +222,134 @@ results_df = spark.read.parquet("salary_analysis_results.parquet")
 salary_df.show()
 results_df.show()
 ```
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## Contributors
+
+- Zaw Myo Win
+
+# Project 2: Telco Customer Churn Prediction
+
+A machine learning project that analyzes customer data to predict churn in a telecommunications company using Apache Spark's MLlib.
+
+## Project Overview
+
+This project demonstrates a complete machine learning workflow:
+
+1. Load telco customer data from CSV
+2. Process and prepare data for machine learning
+3. Train a Random Forest model to predict customer churn
+4. Evaluate model performance and analyze feature importance
+
+## Data Structure
+
+The telco customer dataset contains customer records with the following fields:
+
+- `customerID`: Unique identifier for each customer
+- Demographics: `gender`, `SeniorCitizen`, `Partner`, `Dependents`
+- Services: `PhoneService`, `MultipleLines`, `InternetService`, etc.
+- Account information: `Contract`, `PaperlessBilling`, `PaymentMethod`
+- Financial data: `MonthlyCharges`, `TotalCharges`
+- `Churn`: Target variable indicating whether the customer left the company
+
+## Project Structure
+
+```
+telco-churn-prediction/
+├── src/
+│   ├── run_analysis.py               # Main script to run the analysis
+│   ├── load_churn_data.py            # Script for data loading diagnostics
+│   └── run_churn_model.py            # Script for the full ML workflow
+├── data/
+│   └── WA_Fn-UseC_-Telco-Customer-Churn.csv  # Source data file
+├── churn_model/                      # Saved model directory
+└── feature_importance.png            # Feature importance visualization
+```
+
+## Files
+
+- `data/WA_Fn-UseC_-Telco-Customer-Churn.csv`: The source data file with customer records
+- `src/load_churn_data.py`: Script to verify data loading works correctly
+- `src/run_churn_model.py`: Main script that loads data and performs ML analysis
+- `src/run_analysis.py`: Helper script to run either of the above scripts
+
+## Setup Instructions
+
+### Prerequisites
+
+- Python 3.x
+- Apache Spark
+- Python packages: 
+  - pyspark
+  - pandas
+  - matplotlib
+  - seaborn
+
+### Running the Analysis
+
+1. To check if the dataset can be loaded correctly:
+   ```
+   python src/run_analysis.py check
+   ```
+
+2. To run the full churn prediction model:
+   ```
+   python src/run_analysis.py model
+   ```
+
+3. For help and available commands:
+   ```
+   python src/run_analysis.py help
+   ```
+
+## Example Output
+
+The analysis provides various metrics to evaluate the model performance:
+
+```
+Accuracy: 0.7928
+Precision: 0.7768
+Recall: 0.7928
+Area Under ROC: 0.8474
+```
+
+Additionally, a feature importance analysis shows which factors contribute most to customer churn:
+
+```
+                    feature  importance
+0          Contract_indexed    0.285943
+1                    tenure    0.182681
+2       TechSupport_indexed    0.117928
+3    OnlineSecurity_indexed    0.096509
+4   InternetService_indexed    0.085970
+```
+
+## Technical Details
+
+### Data Preprocessing
+
+The preprocessing pipeline includes:
+- Handling missing values in TotalCharges
+- Converting categorical variables to numerical using StringIndexer
+- Feature assembly and scaling
+
+### Model Training
+
+We use a Random Forest Classifier with the following parameters:
+- 100 trees
+- Maximum depth of 5
+- Features selected: All customer attributes after indexing
+
+### Model Evaluation
+
+The model is evaluated using multiple metrics:
+- Accuracy
+- Precision
+- Recall
+- Area Under ROC curve
 
 ## License
 
