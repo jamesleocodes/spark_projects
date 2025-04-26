@@ -4,6 +4,7 @@ This repository contains multiple data analysis projects using Apache Spark:
 
 1. Employee Salary Data Analysis
 2. Telco Customer Churn Prediction
+3. Credit Card Fraud Detection
 
 For those new to ETL, a foundational article on the topic can be found [here](https://medium.com/@mr.zawmyowin.physics/data-engineering-simplified-techniques-tools-and-insights-for-aspiring-professionals-a8a4f29f78bb). The instructions for setting up MySQL are detailed in the [provided guide](https://github.com/jamesleocodes/ETL_projects/blob/main/setupSQL.md).
 
@@ -19,11 +20,14 @@ Spark/
 │   ├── import_salary.py              # Script to import CSV data into MySQL
 │   ├── spark_salary.py               # Script for Spark analysis of MySQL data
 │   ├── load_churn_data.py            # Script for data loading diagnostics
-│   ├── run_churn_model.py            # Script for the full ML workflow 
-│   └── run_analysis.py               # Helper script to run churn analysis
+│   ├── run_churn_model.py            # Script for the full ML workflow
+│   ├── credit_card_fraud_detection.py # Credit card fraud detection script
+│   ├── credit_card_fraud_streaming.py # Real-time fraud detection script
+│   └── generate_mock_stream.py        # Script to generate mock streaming data
 ├── data/                             # Data directory
 │   ├── salary.csv                    # Employee salary data
-│   └── WA_Fn-UseC_-Telco-Customer-Churn.csv  # Telco customer churn data
+│   ├── WA_Fn-UseC_-Telco-Customer-Churn.csv  # Telco customer churn data
+│   └── creditcard.csv                # Credit card fraud detection data
 ├── salary_data.parquet/              # Parquet directory with employee data
 └── salary_analysis_results.parquet/  # Parquet directory with analysis results
 ```
@@ -381,3 +385,141 @@ This project is open source and available under the [MIT License](LICENSE).
 ## Contributors
 
 - Zaw Myo Win
+
+# Project 3: Credit Card Fraud Detection
+
+## Project Overview
+
+This project demonstrates a complete machine learning workflow for credit card fraud detection:
+
+1. Load and preprocess credit card transaction data
+2. Build and train a machine learning model to detect fraudulent transactions
+3. Evaluate model performance with various metrics
+4. Implement real-time fraud detection with Spark Structured Streaming
+
+## Data Structure
+
+The credit card dataset contains anonymized credit card transactions with the following fields:
+
+- `Time`: Time elapsed between this transaction and the first transaction in the dataset
+- `V1-V28`: Features from PCA dimension reduction (anonymized for privacy)
+- `Amount`: Transaction amount
+- `Class`: Target variable (1 for fraud, 0 for legitimate transaction)
+
+## Project Structure
+
+```
+credit-card-fraud-detection/
+├── src/
+│   ├── credit_card_fraud_detection.py   # Main Python script for fraud detection
+│   ├── credit_card_fraud_streaming.py   # Streaming implementation for real-time detection
+│   └── generate_mock_stream.py          # Script to generate mock streaming data
+├── data/
+│   └── creditcard.csv                   # Credit card transaction dataset
+└── models/
+    └── fraud_detection_model/           # Saved ML model for reuse
+```
+
+## Files
+
+- `src/credit_card_fraud_detection.py`: Complete pipeline for fraud detection (data loading, preprocessing, model training, evaluation)
+- `src/credit_card_fraud_streaming.py`: Implementation of real-time fraud detection using Spark Structured Streaming
+- `src/generate_mock_stream.py`: Utility to generate synthetic transaction data for testing the streaming pipeline
+
+## Setup Instructions
+
+### Prerequisites
+
+- Python 3.x
+- Apache Spark
+- Python packages: 
+  - pyspark
+  - pandas
+  - matplotlib
+  - seaborn
+
+### Installation
+
+1. Ensure you have the dataset in the `data/` directory:
+   - Download the credit card fraud dataset from Kaggle
+   - Place it at `data/creditcard.csv`
+
+2. Install required Python packages:
+   ```
+   pip install -r requirements.txt
+   ```
+
+### Running the Analysis
+
+1. To train and evaluate the fraud detection model:
+   ```
+   python src/credit_card_fraud_detection.py
+   ```
+   This script will:
+   - Load and preprocess the credit card transaction data
+   - Train a Logistic Regression model
+   - Evaluate model performance
+   - Save the trained model
+
+2. To test real-time fraud detection with streaming data:
+   ```
+   # First, generate mock streaming data
+   python src/generate_mock_stream.py
+   
+   # Then run the streaming detection script
+   python src/credit_card_fraud_streaming.py
+   ```
+
+## Model Performance
+
+The model is evaluated using several metrics:
+- Accuracy: Overall prediction accuracy
+- Precision: Ability to detect actual fraud cases
+- Recall: Ability to find all fraud cases
+- ROC AUC: Area under the Receiver Operating Characteristic curve
+
+## Technical Details
+
+### Data Preprocessing
+- Check for null values
+- Vector assembly of features
+- Feature scaling with StandardScaler
+
+### Machine Learning Pipeline
+- Feature engineering with VectorAssembler
+- Logistic Regression classifier
+- Model training with cross-validation
+- Model persistence for reuse in streaming
+
+### Streaming Implementation
+- Real-time transaction monitoring
+- Application of pre-trained model to new transactions
+- Continuous fraud detection and alerting
+
+## Real-time Fraud Detection
+
+The streaming implementation allows for processing transactions as they occur:
+
+```
+                      ┌─────────────┐          ┌─────────────┐          ┌─────────────┐
+                      │  Stream     │          │             │          │             │
+   ┌─────────┐        │  Source     │          │  Feature    │          │  Fraud      │
+   │ New     │ Input  │ (Transaction│ Process  │  Processing │ Predict  │  Detection  │
+   │ Trans-  ├───────►│  Events)    ├─────────►│  Pipeline   ├─────────►│  Results    │
+   │ actions │        │             │          │             │          │             │
+   └─────────┘        └─────────────┘          └─────────────┘          └─────────────┘
+                                                      ▲
+                                                      │
+                                              ┌───────┴───────┐
+                                              │ Pre-trained   │
+                                              │ Fraud Model   │
+                                              └───────────────┘
+```
+
+## Future Enhancements
+
+- Implement more sophisticated models (RandomForest, GBT)
+- Add feature importance analysis and visualization
+- Implement anomaly detection algorithms
+- Enhance streaming with Kafka integration
+- Add a dashboard for real-time monitoring
