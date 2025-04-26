@@ -12,8 +12,8 @@ spark = SparkSession.builder \
     .getOrCreate()
 
 # Path to the sample data to get schema
-file_path = "data/creditcard.csv"
-model_path = "models/fraud_detection_model"
+file_path = "../data/creditcard.csv"
+model_path = "../models/fraud_detection_model"
 
 # Load a sample to get the schema
 sample_df = spark.read.csv(file_path, header=True, inferSchema=True)
@@ -37,7 +37,7 @@ streaming_data = spark.readStream \
     .schema(sample_df.schema) \
     .option("maxFilesPerTrigger", 1) \
     .option("header", "true") \
-    .csv("data/stream_source")
+    .csv("../data/stream_source")
 
 # Process streaming data - add feature vector
 streaming_data_with_features = assembler.transform(streaming_data)

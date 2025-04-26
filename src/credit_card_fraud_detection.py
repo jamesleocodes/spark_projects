@@ -81,7 +81,7 @@ def train_models(df):
     print("Logistic Regression model trained")
     
     # Save the model
-    model_dir = "models/fraud_detection_model"
+    model_dir = "../models/fraud_detection_model"
     lr_model.write().overwrite().save(model_dir)
     print(f"Model saved to {model_dir}")
     
@@ -120,18 +120,18 @@ def analyze_results(model, predictions, feature_columns):
         sns.barplot(x='importance', y='feature', data=feature_importance)
         plt.title('Feature Importance in Credit Card Fraud Detection')
         plt.tight_layout()
-        plt.savefig('fraud_feature_importance.png')
+        plt.savefig('../fraud_feature_importance.png')
         plt.close()
         
         # Save feature importance data
-        feature_importance.to_csv('fraud_feature_importance.csv', index=False)
+        feature_importance.to_csv('../fraud_feature_importance.csv', index=False)
         print("\nFeature importance plot saved as 'fraud_feature_importance.png'")
         print("Feature importance data saved as 'fraud_feature_importance.csv'")
 
 # Main function
 def main():
-    # File path
-    file_path = "data/creditcard.csv"
+    # File path - use relative path to access file in the root data directory
+    file_path = "../data/creditcard.csv"
     
     # Initialize Spark
     spark = init_spark()

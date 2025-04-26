@@ -6,7 +6,7 @@ import pandas as pd
 from datetime import datetime
 
 # Create directory for streaming files if it doesn't exist
-os.makedirs("data/stream_source", exist_ok=True)
+os.makedirs("../data/stream_source", exist_ok=True)
 
 # Number of transactions to generate
 num_transactions = 100
@@ -44,7 +44,7 @@ for batch in range(num_transactions // batch_size):
     
     # Save as CSV with timestamp to ensure uniqueness
     timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')
-    output_file = f"data/stream_source/transactions_{timestamp}.csv"
+    output_file = f"../data/stream_source/transactions_{timestamp}.csv"
     df.to_csv(output_file, index=False)
     
     print(f"Generated batch {batch+1}/{num_transactions//batch_size} - {output_file}")
