@@ -249,15 +249,6 @@ results_df = spark.read.parquet("salary_analysis_results.parquet")
 salary_df.show()
 results_df.show()
 ```
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## Contributors
-
-- Zaw Myo Win
-
 # Project 2: Telco Customer Churn Prediction
 
 A machine learning project that analyzes customer data to predict churn in a telecommunications company using Apache Spark's MLlib.
@@ -523,3 +514,11 @@ The streaming implementation allows for processing transactions as they occur:
 - Implement anomaly detection algorithms
 - Enhance streaming with Kafka integration
 - Add a dashboard for real-time monitoring
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## Contributors
+
+- Zaw Myo Win
