@@ -83,4 +83,4 @@ derby.log
 *.key
 config.ini
 credentials.json
-secrets.yaml 
+secrets.yaml data/creditcard.csv
