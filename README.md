@@ -369,14 +369,6 @@ The model is evaluated using multiple metrics:
 - Recall
 - Area Under ROC curve
 
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## Contributors
-
-- Zaw Myo Win
-
 # Project 3: Credit Card Fraud Detection
 
 ## Project Overview
