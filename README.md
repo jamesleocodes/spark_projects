@@ -419,7 +419,7 @@ credit-card-fraud-detection/
   - pyspark
   - pandas
   - matplotlib
-  - seaborn
+
 
 ### Installation
 
